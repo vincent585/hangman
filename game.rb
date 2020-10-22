@@ -29,6 +29,6 @@ class Game
   end
 
   def choose_word
-    'Coming soon'
+    dictionary.sample
   end
 end
