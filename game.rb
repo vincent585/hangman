@@ -16,7 +16,7 @@ class Game
 
   def clean_dictionary(dict)
     dict.select do |word|
-      correct_length?(word) && !proper_noun?(word)
+      correct_length?(word) && not_proper_noun?(word)
     end
   end
 
@@ -24,12 +24,11 @@ class Game
     word.length >= 5 && word.length <= 12
   end
 
-  def proper_noun?(word)
-    word == word.capitalize
+  def not_proper_noun?(word)
+    word != word.capitalize
   end
 
   def choose_word
     'Coming soon'
   end
 end
-
