@@ -9,6 +9,7 @@ module Displayable
       If you can guess the secret word in less than 6 guesses, you win! Otherwise, well... 
       
                             R.I.P. Your hanging man.
+                            
     HEREDOC
   end
 
@@ -22,10 +23,12 @@ module Displayable
 
   def show_guess_progress
     puts current_guess_progress.join(' ')
+    puts
   end
 
   def show_incorrect_guesses
     puts "Incorrect guesses: #{incorrect_guesses.join(', ')}"
+    puts
   end
 
   def show_incorrect_guess_count
