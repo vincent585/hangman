@@ -1,8 +1,8 @@
-require_relative 'player'
 require_relative 'displayable'
+require_relative 'serializable'
 
 class Game
-  include Displayable
+  include Serializable, Displayable
   attr_reader :dictionary, :incorrect_guesses, :incorrect_guess_count, :current_guess_progress
 
   def initialize
