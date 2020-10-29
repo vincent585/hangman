@@ -18,7 +18,7 @@ module Displayable
   end
 
   def invalid_input_message
-    puts 'Please only enter a single letter, (a-z).'
+    puts 'Please only enter a single letter (a-z) that you have not guessed already!'
   end
 
   def show_guess_progress

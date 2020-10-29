@@ -1,11 +1,14 @@
 require_relative 'displayable'
 require_relative 'serializable'
+require 'yaml'
 
 class Game
-  include Serializable, Displayable
+  include Displayable
+  include Serializable
+  extend Serializable
   attr_reader :dictionary, :incorrect_guesses, :incorrect_guess_count, :current_guess_progress
 
-  def initialize
+  def initialize(*)
     @dictionary = clean_dictionary(load_dictionary)
     @secret_word = choose_word.chars
     @current_guess_progress = secret_word_to_underscores
@@ -65,7 +68,7 @@ class Game
   def prompt_for_guess
     guess_prompt_message
     guess = gets.downcase.chomp
-    until valid_guess?(guess)
+    until valid_guess?(guess) && not_guessed?(guess)
       invalid_input_message
       guess = gets.downcase.chomp
     end
@@ -74,6 +77,10 @@ class Game
 
   def valid_guess?(guess)
     guess.match?(/[a-z]/) && guess.length == 1
+  end
+
+  def not_guessed?(guess)
+    !current_guess_progress.include?(guess) && !incorrect_guesses.include?(guess)
   end
 
   def correct_guess?(guess)
@@ -93,3 +100,4 @@ end
 
 x = Game.new
 x.play_game
+
