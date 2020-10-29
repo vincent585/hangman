@@ -1,16 +1,18 @@
 module Serializable
-  def deserialize(yaml_string)
-    data = YAML.load(yaml_string)
-    new(
-              data[:secret_word],
-              data[:current_guess_progress],
-              data[:incorrect_guess_count],
-              data[:incorrect_guesses]
-            )
+  def deserialize(game_id)
+    file_name = "saved_games/game_#{game_id}.yml"
+    data = YAML.load(File.read(file_name))
+    data.each do |variable, value|
+      instance_variable_set(variable, value)
+    end
   end
 
   def serialize
-    YAML.dump(self)
+    obj = instance_variables.each_with_object({}) do |var, object|
+      object[var] = instance_variable_get var
+      object
+    end
+    YAML.dump(obj)
   end
 
   def save_game(game_id)

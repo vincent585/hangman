@@ -1,14 +1,14 @@
---- !ruby/object:Game
-secret_word:
-- a
+---
+:@secret_word:
 - s
-- s
-- o
-- r
+- u
+- c
+- c
+- i
+- n
+- c
 - t
-- e
-- d
-current_guess_progress:
+:@current_guess_progress:
 - _
 - _
 - _
@@ -17,5 +17,5 @@ current_guess_progress:
 - _
 - _
 - _
-incorrect_guess_count: 0
-incorrect_guesses: []
+:@incorrect_guess_count: 0
+:@incorrect_guesses: []

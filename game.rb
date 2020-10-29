@@ -97,6 +97,3 @@ class Game
     incorrect_guesses << guess
   end
 end
-
-x = Game.new
-x.save_game('test')
