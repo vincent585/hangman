@@ -25,6 +25,6 @@ module Serializable
 
     file_name = "saved_games/game_#{game_id}.yml"
 
-    #TODO
+    # TODO
   end
 end

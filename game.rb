@@ -9,8 +9,7 @@ class Game
   attr_reader :dictionary, :incorrect_guesses, :incorrect_guess_count, :current_guess_progress
 
   def initialize(*)
-    @dictionary = clean_dictionary(load_dictionary)
-    @secret_word = choose_word.chars
+    @secret_word = choose_word(clean_dictionary).chars
     @current_guess_progress = secret_word_to_underscores
     @incorrect_guess_count = 0
     @incorrect_guesses = []
@@ -43,7 +42,8 @@ class Game
     File.readlines('dictionary.txt', chomp: true)
   end
 
-  def clean_dictionary(dict)
+  def clean_dictionary
+    dict = load_dictionary
     dict.select do |word|
       correct_length?(word) && not_proper_noun?(word)
     end
@@ -57,7 +57,7 @@ class Game
     word != word.capitalize
   end
 
-  def choose_word
+  def choose_word(dictionary)
     dictionary.sample
   end
 
@@ -80,7 +80,7 @@ class Game
   end
 
   def not_guessed?(guess)
-    !current_guess_progress.include?(guess) && !incorrect_guesses.include?(guess)
+    true unless current_guess_progress.include?(guess) || incorrect_guesses.include?(guess)
   end
 
   def correct_guess?(guess)
@@ -100,4 +100,3 @@ end
 
 x = Game.new
 x.play_game
-
