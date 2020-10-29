@@ -2,7 +2,6 @@ module Serializable
   def deserialize(yaml_string)
     data = YAML.load(yaml_string)
     new(
-              data[:dictionary],
               data[:secret_word],
               data[:current_guess_progress],
               data[:incorrect_guess_count],
@@ -11,13 +10,7 @@ module Serializable
   end
 
   def serialize
-    YAML.dump({
-                dictionary: @dictionary,
-                secret_word: @secret_word,
-                current_guess_progress: @current_guess_progress,
-                incorrect_guess_count: @incorrect_guess_count,
-                incorrect_guesses: @incorrect_guesses
-              })
+    YAML.dump(self)
   end
 
   def save_game(game_id)
@@ -25,6 +18,7 @@ module Serializable
 
     file_name = "saved_games/game_#{game_id}.yml"
 
-    # TODO
+    File.open(file_name, 'w') { |file| file.puts serialize }
+    puts 'Game saved.'
   end
 end

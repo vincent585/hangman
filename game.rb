@@ -99,4 +99,4 @@ class Game
 end
 
 x = Game.new
-x.play_game
+x.save_game('test')
