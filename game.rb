@@ -9,6 +9,7 @@ class Game
   attr_reader :dictionary, :incorrect_guesses, :incorrect_guess_count, :current_guess_progress
 
   def initialize(*)
+    instructions
     @secret_word = choose_word(clean_dictionary).chars
     @current_guess_progress = secret_word_to_underscores
     @incorrect_guess_count = 0
@@ -16,10 +17,12 @@ class Game
   end
 
   def play_game
-    instructions
+    show_guess_progress
     loop do
       return game_lost if incorrect_guess_count == 6
       return game_won if current_guess_progress == secret_word
+
+      save_game(assign_game_id) if save_game?
 
       guess = prompt_for_guess
       if correct_guess?(guess)
@@ -79,6 +82,18 @@ class Game
     guess.match?(/[a-z]/) && guess.length == 1
   end
 
+  def save_game?
+    puts "Type 'save' to save your current game progress. Otherwise, enter any key to continue guessing."
+    response = gets.downcase.chomp
+    response == 'save'
+  end
+
+  def assign_game_id
+    puts 'What would you like to save your game file as?'
+    game_id = gets.chomp
+    game_id
+  end
+
   def not_guessed?(guess)
     true unless current_guess_progress.include?(guess) || incorrect_guesses.include?(guess)
   end
@@ -97,3 +112,6 @@ class Game
     incorrect_guesses << guess
   end
 end
+
+x = Game.new
+x.play_game
