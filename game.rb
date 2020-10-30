@@ -17,13 +17,13 @@ class Game
   end
 
   def play_game
-    show_guess_progress
+    retrieve_game_id if load_game?
     loop do
       return game_lost if incorrect_guess_count == 6
       return game_won if current_guess_progress == secret_word
 
+      show_guess_progress
       save_game(assign_game_id) if save_game?
-
       guess = prompt_for_guess
       if correct_guess?(guess)
         update_current_guess_progress(guess)
@@ -33,7 +33,6 @@ class Game
       end
       show_incorrect_guess_count
       show_incorrect_guesses
-      show_guess_progress
     end
   end
 
@@ -80,6 +79,28 @@ class Game
 
   def valid_guess?(guess)
     guess.match?(/[a-z]/) && guess.length == 1
+  end
+
+  def load_game?
+    puts "Type 'load' to load a previous game file. Otherwise, enter any key to start a new game."
+    response = gets.downcase.chomp
+    response == 'load'
+  end
+
+  def retrieve_game_id
+    puts 'Enter the name of the save file you would like to load.'
+    puts 'Previously saved games include: '
+    Dir.each_child('saved_games') { |file| puts file }
+    game_id = gets.downcase.chomp
+    if game_id_exists?(game_id)
+      deserialize(game_id)
+    else
+      puts 'Could not find a file with that name. Starting a new game!'
+    end
+  end
+
+  def game_id_exists?(game_id)
+    Dir.children('saved_games').include?(game_id)
   end
 
   def save_game?

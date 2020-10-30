@@ -1,6 +1,6 @@
 module Serializable
   def deserialize(game_id)
-    file_name = "saved_games/game_#{game_id}.yml"
+    file_name = "saved_games/#{game_id}"
     data = YAML.load(File.read(file_name))
     data.each do |variable, value|
       instance_variable_set(variable, value)
@@ -18,7 +18,7 @@ module Serializable
   def save_game(game_id)
     Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
 
-    file_name = "saved_games/game_#{game_id}.yml"
+    file_name = "saved_games/#{game_id}.yml"
 
     File.open(file_name, 'w') { |file| file.puts serialize }
     puts 'Game saved.'
